@@ -12,4 +12,13 @@ if [ -d "$DIR" ]; then
 else
   echo "Creating ${DIR} directory"
   mkdir ${DIR}
+  cd ${DIR}
+  cat > .env <<message
+
+  API_URL=/api/v1
+  PORT=3000
+  CONNECTION_STRING=mongodb+srv://aptech:123456789abc@mydemocluster.6ihvf.mongodb.net/eshops?retryWrites=true&w=majority
+  secret=this-is-my-secret
+  
+  message
 fi
