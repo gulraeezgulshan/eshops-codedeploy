@@ -33,3 +33,49 @@ sudo ./install auto
 sudo service codedeploy-agent status
 
 
+
+user ubuntu;
+worker_processes auto;
+
+events {
+	worker_connections 1024;
+}
+
+http {
+
+	server {
+		server_name gulraeez.com www.gulraeez.com;
+		location / {
+			proxy_set_header X-Real-IP $remote_addr;
+			proxy_set_header Host $http_host;
+			proxy_pass http://127.0.0.1:3000;
+		}
+	
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/gulraeez.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/gulraeez.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+
+	server {
+    if ($host = gulraeez.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+		listen 80;
+		server_name gulraeez.com www.gulraeez.com;
+    return 404; # managed by Certbot
+
+
+}}
+
+
+
+
+
+
+
